@@ -3,7 +3,7 @@ Search specific company websites for a 'career' page, search open positions for 
 
 This is a work in progress and is in no way guaranteed to work for your specific needs. Especially considering that I am not a developer.
 
-Basic Functionality:
+Basic Functionality:  
 Enter a single URL or a list of URLs to parse
 Search for the job opening page (typically searching visable URLs for 'career')
 Search the returned URL for open positions
