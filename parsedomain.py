@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 
 # URL to lookup
-url = "https://www.theedigital.com/about/career"
+url = "https://www.google.com"
 
 # Search string on the page
 jobsearchstring = 'career'
@@ -33,6 +33,4 @@ for uniquelist in career_links:
         uniquelist.append(thislist)
     
 print(uniquelist)
-
-# print(career_links)
 
