@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 
 # URL to lookup
-url = "https://linkedin.com"
+url = "https://online.hbs.edu"
 
 # Search string on the page
 searchstring = 'career'
