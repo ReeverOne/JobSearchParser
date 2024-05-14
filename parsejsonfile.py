@@ -18,11 +18,12 @@ def pageData(url): # input variable of a url
     return BeautifulSoup(stock.content, 'lxml') # Create the soup from the stock content and parse it with an extractor. Using a non-standard parser 'lxml' for this. And return this result.
 
 # Store the unique HREFs for each domain
-finalresults = []
+finalresults = {}
 
 for domain in data:
     # Get the URL from the json
     url = domain.get('Domain')
+    company = domain.get('Company')
 
     # Parse the page with lxml
     soup = pageData(url)
@@ -31,16 +32,18 @@ for domain in data:
     links = soup.find_all(href=re.compile(searchstring))
 
     # Store the uniqueurls until loop is complete
-    uniqueurls = []
+    uniqueurls = {}
 
     # Clean up the URLs and make sure that each list item is unique
     for item in links:
-        sendthis = item.get('href')
-        if not sendthis.startswith('http'):
+        getcompany = '"Company": "' + company '
+        sendthis = '{' + getcompany + ', "URL": ' + item.get('href') + '}'
+        if not sendthis[1].startswith('http'):
             sendthis = url + sendthis
         if sendthis not in uniqueurls:
             uniqueurls.append(sendthis)
 
+    # Add the results for the specific domain searched in the final variable
     finalresults.append(uniqueurls)
     
 
