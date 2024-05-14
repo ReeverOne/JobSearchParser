@@ -4,7 +4,7 @@ import re
 from bs4 import BeautifulSoup
 
 # Get users input on the string to search for in the domains on the list
-searchstring = input('What word for I search for in the links?')
+searchstring = input('What word for I search for in the links? ')
 
 # User Agent to use for scraping to get around 403 errors
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.2478.97"}
@@ -30,8 +30,18 @@ for domain in data:
     # Find links that contain the string 'career' using Regular Expressions (RE)
     links = soup.find_all(href=re.compile(searchstring))
 
+    # Store the uniqueurls until loop is complete
+    uniqueurls = []
+
     # Clean up the URLs and make sure that each list item is unique
-    [finalresults.append(link) for link in links if link not in finalresults]
+    for item in links:
+        sendthis = item.get('href')
+        if not sendthis.startswith('http'):
+            sendthis = url + sendthis
+        if sendthis not in uniqueurls:
+            uniqueurls.append(sendthis)
+
+    finalresults.append(uniqueurls)
     
 
 print(finalresults)

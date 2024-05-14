@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 
 # URL to lookup
-url = "https://online.hbs.edu"
+url = "https://theedigital.com"
 
 # Search string on the page
 searchstring = 'career'
@@ -23,6 +23,19 @@ soup = pageData(url)
 # Find links that contain the string 'career' using Regular Expressions (RE)
 career_links = soup.find_all(href=re.compile(searchstring))
 
+uniqueurls = []
+
+for item in career_links:
+    sendthis = item.get('href')
+    if not sendthis.startswith('http'):
+        sendthis = url + sendthis
+    if sendthis not in uniqueurls:
+        uniqueurls.append(sendthis)
+
+print(uniqueurls)
+
+
+"""
 # Clean up the URLs and make sure that each list item is unique
 for uniquelist in career_links:
     thislist = uniquelist.get('href')
@@ -33,3 +46,9 @@ for uniquelist in career_links:
 # Print the result
 print(uniquelist)
 
+for row in career_links:
+    if row.get('href').startswith('http'):
+        thislist = row.get('href')
+    else:
+        thislist = url + row.get('href')
+"""    
