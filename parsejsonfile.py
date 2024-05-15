@@ -4,11 +4,12 @@ import re
 from bs4 import BeautifulSoup
 
 # Get users input on the string to search for in the domains on the list
-searchstring = input('What word for I search for in the links? ')
+searchstring = 'career' # Switch to a user input before final revision
 
 # User Agent to use for scraping to get around 403 errors
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.2478.97"}
 
+# Load the json list of domains
 with open("domains.json") as fp:
     data = json.load(fp)
 
@@ -20,10 +21,11 @@ def pageData(url): # input variable of a url
 # Store the unique HREFs for each domain
 finalresults = {}
 
+# Loop through each domain and scan for links containing the searchstring
 for domain in data:
     # Get the URL from the json
-    url = domain.get('Domain')
-    company = domain.get('Company')
+    url = domain.get('Domain') # Set URL
+    company = domain.get('Company') # Set Company name
 
     # Parse the page with lxml
     soup = pageData(url)
@@ -33,18 +35,32 @@ for domain in data:
 
     # Store the uniqueurls until loop is complete
     uniqueurls = {}
+    
+    listofurls = []
 
     # Clean up the URLs and make sure that each list item is unique
     for item in links:
-        getcompany = '"Company": "' + company '
-        sendthis = '{' + getcompany + ', "URL": ' + item.get('href') + '}'
-        if not sendthis[1].startswith('http'):
-            sendthis = url + sendthis
-        if sendthis not in uniqueurls:
-            uniqueurls.append(sendthis)
+        listofurls = []
+        if not item.get('href').startswith('http'):
+            updateto = url + item.get('href')
+            listofurls.append(updateto)
+        else:
+            listofurls.append(item.get('href'))
+            
+    
+        
+        
+        getcompany = '"Company": "' + company
+        jdata = '{' + getcompany + '", "URL": "' + item.get('href') + '"}'
+        sendthis = json.loads(jdata)
+        if not sendthis['URL'].startswith('http'):
+            updateto = url + sendthis['URL']
+            sendthis['URL'] = updateto
+        if sendthis['URL'] not in uniqueurls:
+            uniqueurls.update(sendthis)
 
     # Add the results for the specific domain searched in the final variable
-    finalresults.append(uniqueurls)
+    finalresults.update(uniqueurls)
     
 
 print(finalresults)
