@@ -19,7 +19,10 @@ def pageData(url): # input variable of a url
     return BeautifulSoup(stock.content, 'lxml') # Create the soup from the stock content and parse it with an extractor. Using a non-standard parser 'lxml' for this. And return this result.
 
 # Store the unique HREFs for each domain
-finalresults = {}
+class finalresults:
+    def __init__(self, name, urls):
+        self.name = name
+        self.urls = urls
 
 # Loop through each domain and scan for links containing the searchstring
 for domain in data:
@@ -46,8 +49,12 @@ for domain in data:
             listofurls.append(updateto)
         else:
             listofurls.append(item.get('href'))
-            
+"""            
+    # Compile the data into an array
+    uniqueurls = json.loads('{"Company": "' + company + '", "URLs": [' + listofurls + ']}')
     
+    # Add the array to the final results variable
+    finalresults = finalresults + uniqueurls
         
         
         getcompany = '"Company": "' + company
@@ -64,3 +71,4 @@ for domain in data:
     
 
 print(finalresults)
+"""
