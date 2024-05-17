@@ -1,15 +1,22 @@
 import json
 import requests
+import re
 from bs4 import BeautifulSoup
+
+# User Agent to use for scraping to get around 403 errors
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.2478.97"}
 
 def load_urls_from_json(file_path):
     with open(file_path, 'r') as file:
         urls = json.load(file)
+        for x, url in enumerate(urls):
+            if not url.startswith('http'):
+                urls[x] = 'https://' + url
     return urls
 
 def fetch_page(url):
     try:
-        response = requests.get(url)
+        response = requests.get(url, headers=headers)
         response.raise_for_status()
         return response.text
     except requests.exceptions.RequestException as e:
@@ -18,17 +25,17 @@ def fetch_page(url):
 
 def find_career_page(home_page_content, base_url):
     soup = BeautifulSoup(home_page_content, 'html.parser')
-    career_links = soup.find_all('a', href=True, text=lambda x: x and ('career' in x.lower() or 'join our team' in x.lower() or 'job' in x.lower()))
-    for link in career_links:
-        href = link['href']
-        if not href.startswith('http'):
+    career_links = soup.find_all('a', href=True, string=lambda x: x and ('career' in x.lower() or 'join our team' in x.lower() or 'job' in x.lower()))
+    for x in career_links:
+        href = x['href']
+        if href.startswith('/'):
             href = requests.compat.urljoin(base_url, href)
         return href
     return None
 
 def parse_job_requirements(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
-    job_listings = soup.find_all(text=lambda text: text and ("project manager" in text.lower() or "project management" in text.lower()))
+    job_listings = soup.find_all(string=lambda text: text and ("project manager" in text.lower() or "project management" in text.lower()))
 
     job_positions = []
     for listing in job_listings:
