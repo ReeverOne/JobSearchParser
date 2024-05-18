@@ -14,13 +14,13 @@ Dreams for v2
 Add AI abilities to prioritize requirements to customize your resume  
 Auto apply to position  
 
-Completed as of 20240518:
-Starts with a csv file of urls of the target companies
-Built a csv to json converter to make it easier for my brain to work with. So far this is just a manual step, but easy enough to automate, and it was good practice.
-Parse the json file for urls
-scan the url for links that contain the word/phrase "career", "join the team", etc.
-scan THOSE urls for my preferred job titles "project manager", "director pmo", etc.
-IF it contains the above, it captures the section of the page containing the search strings, and logs it to an object
-finally it outputs the object to a json file
+Completed as of 20240518: 
+Starts with a csv file of urls of the target companies 
+Built a csv to json converter to make it easier for my brain to work with. So far this is just a manual step, but easy enough to automate, and it was good practice. 
+Parse the json file for urls 
+scan the url for links that contain the word/phrase "career", "join the team", etc. 
+scan THOSE urls for my preferred job titles "project manager", "director pmo", etc. 
+IF it contains the above, it captures the section of the page containing the search strings, and logs it to an object 
+finally it outputs the object to a json file 
 
-It ain't exactly pretty, and my entire thought process is laid out in the repository, but by god it works.
+It ain't exactly pretty, and my entire thought process is laid out in the repository, but by god it works. 
