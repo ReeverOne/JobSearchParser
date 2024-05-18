@@ -51,7 +51,7 @@ def save_results_to_json(results, file_path):
         json.dump(results, file, indent=4)
 
 def main():
-    input_file = 'justurls.json'
+    input_file = 'example.json'
     output_file = 'project_management_positions.json'
     
     urls = load_urls_from_json(input_file)
