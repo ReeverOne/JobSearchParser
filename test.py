@@ -35,7 +35,7 @@ def find_career_page(home_page_content, base_url):
 
 def parse_job_requirements(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
-    job_listings = soup.find_all(string=lambda text: text and ("project manager" in text.lower() or "project management" in text.lower()))
+    job_listings = soup.find_all(string=lambda text: text and ("project manager" in text.lower() or "project management" in text.lower() or "analyst" in text.lower()))
 
     job_positions = []
     for listing in job_listings:
