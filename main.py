@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 # User Agent to use for scraping to get around 403 errors
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.2478.97"}
 
+# Load the json file and make sure that the url starts with a valid http
 def load_urls_from_json(file_path):
     with open(file_path, 'r') as file:
         urls = json.load(file)
@@ -14,6 +15,7 @@ def load_urls_from_json(file_path):
                 urls[x] = 'https://' + url
     return urls
 
+# 
 def fetch_page(url):
     try:
         response = requests.get(url, headers=headers)
